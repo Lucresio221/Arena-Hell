@@ -504,6 +504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  cameraTransform: {fileID: 330585546}
+  mouseSensitivity: 0.1
 --- !u!1 &714432276
 GameObject:
   m_ObjectHideFlags: 0
