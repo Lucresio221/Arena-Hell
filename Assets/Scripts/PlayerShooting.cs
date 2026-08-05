@@ -25,6 +25,13 @@ public class PlayerShooting : MonoBehaviour
         {
             // Imprimir en la consola el nombre del objeto impactado
             Debug.Log("Impacto en: " + hit.transform.name);
+
+
+            EnemyHealth Enemy = hit.transform.GetComponent<EnemyHealth>();
+            if (Enemy != null)
+            {
+                Enemy.TakeDamage(25);
+            }
         }
     }
 }
