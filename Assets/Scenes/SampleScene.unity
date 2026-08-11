@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 614717922}
   - component: {fileID: 614717923}
   - component: {fileID: 614717924}
+  - component: {fileID: 614717925}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -667,6 +668,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &614717925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614717917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084f75643e73eeb41bf6a359c0d40175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &714432276
 GameObject:
   m_ObjectHideFlags: 0
