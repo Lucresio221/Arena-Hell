@@ -6,6 +6,8 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+
+        //later add effects
         health -= amount;
         if (health <= 0f)
         {

@@ -3,68 +3,68 @@ using UnityEngine.InputSystem; // Inclusión obligatoria para el nuevo Input Sys
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movimiento")]
-    public float speed = 5.0f; // Velocidad de movimiento del jugador
+    [Header("Movimiento")] //Just a header for organization
+    public float speed = 5.0f; // Movement speed
 
     [Header("Cámara y Visión")]
-    public Transform cameraTransform; // Arrastra la Main Camera aquí en el Inspector
-    public float mouseSensitivity = 0.1f; // Sensibilidad para Mouse.current
+    public Transform cameraTransform; // Drag the camera here in the inspector
+    public float mouseSensitivity = 0.1f; // Sensitivity for mouse
 
     private CharacterController controller;
-    private float xRotation = 0f;
+    private float xRotation = 0f; // Stores the vertical rotation of the camera
 
     void Start()
     {
-        // Obtener la referencia al CharacterController del jugador
+        // Get the CharacterController component attached to the player
         controller = GetComponent<CharacterController>();
 
-        // Bloquear el cursor
+        // Lock the cursorand make it invisible at the start
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     void Update()
     {
-        // --- 1. ROTACIÓN CON EL MOUSE (NUEVO INPUT SYSTEM) ---
+        // --- Mouse rotation (new input system) ---
         if (Mouse.current != null)
         {
-            // Leer el movimiento del mouse
+            // Reads mouse movement and multiplies it by the sens, stored in a Vector2 variable because the mouse movement is in 2D (X and Y)
             Vector2 mouseDelta = Mouse.current.delta.ReadValue() * mouseSensitivity;
 
-            // Inclinación vertical (Cámara)
-            xRotation -= mouseDelta.y;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            // Vertical rotation (Camera)
+            xRotation -= mouseDelta.y; // xRotation is actually the vertical rotation of the camera, so we subtract the mouse Y movement to invert it
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp the vertical rotation to avoid flipping the camera upside down
             if (cameraTransform != null)
             {
-                cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+                cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Apply the vertical rotation to the camera
             }
 
-            // Giro horizontal (Jugador)
-            transform.Rotate(Vector3.up * mouseDelta.x);
+            // Horizontal rotation (Player)
+            transform.Rotate(Vector3.up * mouseDelta.x); //Vector 3.up is a shorcut for (0,1,0) which is the Y axis, multiplied by mouseDelta.x
         }
 
-        // --- 2. MOVIMIENTO WASD (NUEVO INPUT SYSTEM) ---
+        // --- Movement (New Input System) ---
         if (Keyboard.current != null)
         {
             float x = 0f;
             float z = 0f;
 
-            // Leer entradas de movimiento
+            // Read keyboard input for movement (WASD or arrow keys)
             if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) x -= 1f;
             if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) x += 1f;
             if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) z += 1f;
             if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) z -= 1f;
 
-            // Normalizar para no moverse más rápido en diagonal
+            // Normalize the movement vector to avoid faster diagonal movement
             Vector3 moveInput = new Vector3(x, 0, z).normalized;
 
-            // Calcular la dirección del movimiento orientada a la mirada del jugador
-            Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.z;
+            // Calculate the movement direction based on the player's orientation
+            Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.z; //Transform.right and .forward are just directions, so the player moves according to it
 
-            // Mover al jugador a través del CharacterController
+            // Move the player using the CharacterController component
             controller.Move(move * speed * Time.deltaTime);
 
-            // Desbloquear el cursor con Escape
+            // Unlock the cursor and make it visible when the Escape key is pressed
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 Cursor.lockState = CursorLockMode.None;

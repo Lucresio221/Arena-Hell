@@ -2,26 +2,26 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Asigna el Prefab aquí desde el Inspector
-    public float spawnDelay = 2f;  // Tiempo de espera antes del primer spawn
-    public float spawnInterval = 4f; // Tiempo entre cada spawn
-    public Transform[] spawnPoints; // Lista de puntos de aparición
+    public GameObject enemyPrefab; // get the prefab
+    public float spawnDelay = 2f;  // delay for spawn
+    public float spawnInterval = 4f; // in-between time which enemies spawns
+    public Transform[] spawnPoints; // get the transforms
     void Start()
     {
-        // Inicia la repetición automática del método SpawnEnemy
+        // instantiates enemies using the variables up here
         InvokeRepeating("SpawnEnemy", spawnDelay, spawnInterval);
     }
 
     void SpawnEnemy()
     {
         int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        // Verifica que hayamos asignado el prefab para evitar errores
+        // finds teh amount of enemies
         if (enemyPrefab != null && enemyCount < 3)
         {
-            int randomIndex = Random.Range(0, spawnPoints.Length);
+            int randomIndex = Random.Range(0, spawnPoints.Length); // selects between different spawnpoints
             Transform selectedPoint = spawnPoints[randomIndex];
 
-            // Instancia el enemigo en la posición y rotación del punto elegido
+            // once selected, instantiates the prefab
             Instantiate(enemyPrefab, selectedPoint.position, selectedPoint.rotation);
         }
     }

@@ -7,19 +7,21 @@ public class EnemyAI : MonoBehaviour
     private Transform playerTransform;
 
     // ---
-    private PlayerHealth playerHealth; // Referencia al script PlayerHealth del jugador
+    private PlayerHealth playerHealth; // PlayerHealth type of variable
     
     [Header("Attack settings")]
-    public float attackRange = 1.5f;     // Distancia de ataque en metros
-    public float attackInterval = 1.5f;  // Ataca cada 1.5 segundos
-    public float damageAmount = 25f;     // Daño por ataque
+    public float attackRange = 1.5f;     // Attack distance
+    public float attackInterval = 1.5f;  // Attack every 1.5m distance
+    public float damageAmount = 25f;     // Attack damage
     
     private float attackTimer = 0f;
 
     void Start()
     {
+        //get the agent, we have to tell it that its a navmesh
         agent = GetComponent<NavMeshAgent>();
 
+        //we find the player by name
         GameObject playerObj = GameObject.Find("Player");
         if (playerObj != null)
         {
@@ -33,32 +35,32 @@ public class EnemyAI : MonoBehaviour
     {
         if (playerTransform != null)
         {
-            // Mantiene actualizado el destino
+            // keeps the destination updated
             agent.SetDestination(playerTransform.position);
         }
 
 
-        // 1. Acumular el tiempo transcurrido usando Time.deltaTime
+        // use Time.deltaTime as a counter
         attackTimer += Time.deltaTime;
 
         if (playerTransform != null)
         {
-            // 2. Calcular el vector dirección y la distancia al cuadrado
+            // calculates direction and position squared (for some reason, idk)
             Vector3 direction = playerTransform.position - transform.position;
             float squareDistance = direction.sqrMagnitude;
 
-            // 3. Elevar el rango deseado al cuadrado (1.5 * 1.5 = 2.25)
+            // range (again squared, idk)
             float squareAttackRange = attackRange * attackRange;
 
-            // 4. Comparar y atacar si está en rango y el temporizador está listo
+            // attack if range and timer are right
             if (squareDistance <= squareAttackRange)
             {
                 if (attackTimer >= attackInterval)
                 {
-                    // Aplicar daño
+                    // use the PlayerHealth variable to call the func TakeDamage
                     playerHealth.TakeDamage(damageAmount);
                     
-                    // Reiniciar el temporizador
+                    // Restart timer
                     attackTimer = 0f;
                 }
             }

@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; //Using the new Input system
 
 public class PlayerShooting : MonoBehaviour
 {
-    public float range = 100f; // Distancia máxima del disparo
+    public float range = 100f; // Max shooting distance
 
     void Update()
     {
-        // Detectar el clic izquierdo en el frame actual
+        // Check if the left button of the mouse was pressed this frame (new input system)
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             Shoot();
@@ -16,17 +16,17 @@ public class PlayerShooting : MonoBehaviour
 
     void Shoot()
     {
-        // Crear un rayo desde el centro de la pantalla (0.5, 0.5) a través de la cámara principal
+        // Create a ray from the center of the screen (0.5, 0.5) through the main camera
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
+        RaycastHit hit; // variable that stores info about what the raycast hits
 
-        // Lanzar el Raycast físico
+        // Throw the raycast (ray) then if it hits something, out hit saves the info about the object hit
         if (Physics.Raycast(ray, out hit, range))
         {
-            // Imprimir en la consola el nombre del objeto impactado
+            // Print the name of the object hit in the console (for now)
             Debug.Log("Impacto en: " + hit.transform.name);
 
-
+            //Create a EnemyHealth variable so that it can access the TakeDamage function
             EnemyHealth Enemy = hit.transform.GetComponent<EnemyHealth>();
             if (Enemy != null)
             {
