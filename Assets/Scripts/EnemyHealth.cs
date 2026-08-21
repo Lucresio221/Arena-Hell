@@ -4,6 +4,8 @@ public class EnemyHealth : MonoBehaviour
 {
     public float health = 100f;
 
+
+
     public void TakeDamage(float amount)
     {
 
@@ -11,6 +13,7 @@ public class EnemyHealth : MonoBehaviour
         health -= amount;
         if (health <= 0f)
         {
+            GameManager.instance.AddScore();
             Destroy(gameObject);
         }
     }
