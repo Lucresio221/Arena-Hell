@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
+    [SerializeField] private GameObject gameOverPanel;
 
     void Start()
     {
@@ -23,7 +25,18 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("El Jugador ha muerto.");
-        // Game over logic will be implemented here
+        gameOverPanel.SetActive(true);
+
+        Time.timeScale = 0;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true ;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene(0);
     }
 }
