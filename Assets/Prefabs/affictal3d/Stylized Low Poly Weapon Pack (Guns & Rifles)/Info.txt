@@ -1,0 +1,5 @@
+This pack includes a collection of stylized low-poly weapon models designed for game development. The assets feature simple geometry and colorful designs, making them ideal for stylized, arcade, and low-poly game environments.
+
+All models are optimized for performance and are suitable for mobile, indie, and PC projects. The weapons can be easily integrated into FPS, TPS, survival, and action games.
+
+The pack is designed for quick implementation, allowing developers to use the assets directly or customize them to fit their project style.
