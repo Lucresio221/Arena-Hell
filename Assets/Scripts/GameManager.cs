@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     
     [Header("UI components")]
-    public TextMeshProUGUI healthTxt;
     public TextMeshProUGUI scoreTxt;
     private PlayerHealth playerCurrentHealth;
     public int score = 0;
@@ -25,10 +24,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (healthTxt != null && playerCurrentHealth != null )
-        {
-            healthTxt.text = "Health: " + playerCurrentHealth.currentHealth;
-        }
+        
     }
 
     public void AddScore()
