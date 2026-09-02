@@ -4,6 +4,7 @@ using UnityEngine.InputSystem; //Using the new Input system
 public class PlayerShooting : MonoBehaviour
 {
     public float range = 100f; // Max shooting distance
+    public ParticleSystem muzzleFlash; // Particle system for muzzle flash effect
 
     void Update()
     {
@@ -11,6 +12,10 @@ public class PlayerShooting : MonoBehaviour
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             Shoot();
+            if (muzzleFlash != null)
+            {
+                muzzleFlash.Play();
+            }
         }
     }
 

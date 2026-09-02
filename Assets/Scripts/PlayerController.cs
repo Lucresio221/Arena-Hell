@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Inclusión obligatoria para el nuevo Input System
+using UnityEngine.InputSystem; // Needed for new input system
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Movimiento")] //Just a header for organization
     public float speed = 5.0f; // Movement speed
+    public float inertia = 10.0f; // Interpolation speed for inertia (higher = faster response, lower = smoother/heavier)
 
     [Header("Cámara y Visión")]
     public Transform cameraTransform; // Drag the camera here in the inspector
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
     private float xRotation = 0f; // Stores the vertical rotation of the camera
+    private Vector3 currentMove; // Stores the current movement velocity for smooth inertia interpolation
 
     void Start()
     {
@@ -59,10 +61,13 @@ public class PlayerController : MonoBehaviour
             Vector3 moveInput = new Vector3(x, 0, z).normalized;
 
             // Calculate the movement direction based on the player's orientation
-            Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.z; //Transform.right and .forward are just directions, so the player moves according to it
+            Vector3 targetMove = (transform.right * moveInput.x + transform.forward * moveInput.z) * speed; // Transform.right and .forward are just directions, so the player moves according to it
+
+            // Smoothly interpolate current velocity toward target velocity to add inertia
+            currentMove = Vector3.Lerp(currentMove, targetMove, Time.deltaTime * inertia);
 
             // Move the player using the CharacterController component
-            controller.Move(move * speed * Time.deltaTime);
+            controller.Move(currentMove * Time.deltaTime);
 
             // Unlock the cursor and make it visible when the Escape key is pressed
             if (Keyboard.current.escapeKey.wasPressedThisFrame)
